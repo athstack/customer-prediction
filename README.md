@@ -1,10 +1,16 @@
-# Retail Customer Churn Prediction
+# 📊 Retail Customer Churn Prediction
 
 End-to-end machine learning pipeline for predicting customer churn in a retail dataset.
 
-## Project Structure
+## 📓 Interactive Notebook
 
-```
+View the complete Jupyter Notebook with all analysis, visualizations, diagrams, model evaluation results, and outputs:
+
+[![View Notebook](https://img.shields.io/badge/📓%20View%20Notebook-NBViewer-orange?style=for-the-badge)](https://nbviewer.org/github/athstack/customer-prediction/blob/main/Assignment4_Retail_ML_FINAL2.ipynb)
+
+## 📁 Project Structure
+
+...`
 Retail_Customer/
 ├── data/
 │   ├── customers.csv              # 5,000 customers
