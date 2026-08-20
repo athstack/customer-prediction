@@ -1,123 +1,67 @@
 # Retail Customer Churn Prediction
 
-A machine learning project for predicting customer churn in a retail business using multiple data sources including customer profiles, transactions, interactions, support tickets, and reviews.
-
-## Group Members
-
-1. Adili S. Edward
-2. Joseph M. Nzije
-3. Carol F. Kika
-4. Frank L. Mlyakalamu
-5. Athanas J. Kayombo
-6. Mathias B. Ngilangwa
+End-to-end machine learning pipeline for predicting customer churn in a retail dataset.
 
 ## Project Structure
 
 ```
-customer-prediction/
-├── Assignment4_Retail_ML.ipynb   # Main ML notebook
+Retail_Customer/
 ├── data/
-│   ├── customers.csv             # Customer profiles (5,000 records)
-│   ├── transactions.csv          # Transaction history
-│   ├── interactions.csv          # Customer interactions
-│   ├── support_tickets.csv       # Support tickets
-│   ├── customer_reviews_complete.csv # Customer reviews
-│   ├── campaigns.csv             # Marketing campaigns
-│   ├── processed/
-│   │   └── final_ml_dataset.csv  # Processed ML dataset
-│   ├── app.py                    # FastAPI deployment
-│   └── form.html                 # Prediction form
+│   ├── customers.csv              # 5,000 customers
+│   ├── transactions.csv           # 32,295 transactions
+│   ├── interactions.csv           # 100,000 interactions
+│   ├── support_tickets.csv        # 3,000 tickets
+│   ├── customer_reviews_complete.csv  # 1,108 reviews
+│   ├── campaigns.csv              # 200 campaigns
+│   └── processed/
+│       └── final_ml_dataset.csv   # Processed ML dataset
 ├── models/
-│   └── final_churn_model.joblib  # Trained model
-└── .gitignore
-```
-
-## Datasets
-
-| Dataset | Description | Key Fields |
-|---------|-------------|------------|
-| **Customers** | 5,000 customer records | customer_id, full_name, age, gender, city, state |
-| **Transactions** | Purchase history | transaction_id, customer_id, amount, date |
-| **Interactions** | Customer touchpoints | interaction_id, customer_id, channel, type |
-| **Support Tickets** | Customer support records | ticket_id, customer_id, status, priority |
-| **Reviews** | Customer feedback | review_id, customer_id, rating, sentiment |
-| **Campaigns** | Marketing campaigns | campaign_id, name, budget, ROI |
-
-## ML Pipeline
-
-### Data Processing
-- Data inspection and quality assessment
-- Primary/foreign key identification
-- Merge strategy using LEFT JOINs
-- Missing value handling
-- Duplicate detection
-
-### Feature Engineering
-- Customer-level aggregation from all source tables
-- Transaction features (total spend, frequency, recency)
-- Interaction features (engagement metrics)
-- Support ticket features (resolution rates, satisfaction)
-- Review features (average rating, sentiment scores)
-
-### Target Variable
-- **Churn**: Binary classification (1 = churned, 0 = active)
-- Based on transaction activity within a defined cutoff period
-
-### Models Trained
-1. **Logistic Regression** - Baseline linear model
-2. **Random Forest** - Ensemble tree-based model
-3. **Gradient Boosting** - Sequential ensemble method
-4. **Hist Gradient Boosting** - Optimized gradient boosting
-
-### Model Evaluation
-- Cross-validation with hyperparameter tuning
-- Feature selection for optimal performance
-- Final model saved as `final_churn_model.joblib`
-
-## Deployment
-
-The project includes a FastAPI-based REST API for serving predictions.
-
-### Run the API
-
-```bash
-cd data
-uvicorn app:app --reload
-```
-
-### Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Prediction form |
-| `/health` | GET | Health check |
-| `/predict` | POST | Customer churn prediction |
-
-### Sample Request
-
-```json
-POST /predict
-{
-  "age": 35,
-  "gender": "Male",
-  "total_transactions": 15,
-  "total_spend": 2500.00,
-  ...
-}
+│   └── retail_churn_pipeline.joblib  # Serialized model
+├── Assignment4_Retail_ML.ipynb           # Original notebook
+├── Assignment4_Retail_ML_CORRECTED.ipynb # Corrected notebook (all requirements)
+├── app.py                         # Streamlit deployment app
+└── requirements.txt               # Python dependencies
 ```
 
 ## Requirements
 
-```bash
-pip install pandas numpy matplotlib seaborn scikit-learn fastapi uvicorn joblib
-```
+1. Load and inspect all datasets
+2. Check primary key uniqueness
+3. Identify parent-child relationships
+4. LEFT JOIN merge strategy with documentation
+5. Merge row-count validation
+6. Unmatched key detection
+7. Missing values from JOIN documented
+8. Feature engineering (RFM, engagement, support, review)
+9. Temporal cutoff to prevent data leakage
+10. Temporal leakage audit on support tickets
+11. Churn target variable creation
+12. Preprocessing pipeline (impute, encode, scale)
+13. Train/test split (80/20, stratified)
+14. Feature selection (SelectKBest, multiple k values)
+15. 4 ML models trained
+16. 5-Fold Stratified CV + GridSearchCV
+17. Model evaluation (accuracy, precision, recall, F1, ROC-AUC)
+18. Error analysis with FP/FN comparison
+19. Model deployment (joblib + Streamlit app + README)
 
-## Usage
+## How to Run
 
-1. Open `Assignment4_Retail_ML.ipynb` in Jupyter Notebook/Lab
-2. Run all cells to execute the full ML pipeline
-3. Access the API at `http://localhost:8000` for predictions
+1. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
-## License
+2. Run the corrected notebook:
+   ```
+   jupyter notebook Assignment4_Retail_ML_CORRECTED.ipynb
+   ```
 
-Educational project - Group Assignment 4
+3. Run the Streamlit app:
+   ```
+   streamlit run app.py
+   ```
+
+## Data Lineage
+
+- Raw CSVs -> Date conversion -> Temporal cutoff -> Feature engineering -> LEFT JOIN -> Missing value handling -> Preprocessing -> Feature selection -> Model training -> Evaluation -> Deployment
